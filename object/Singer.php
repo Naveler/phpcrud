@@ -27,6 +27,18 @@ class Singer {
         return $result;
     }
 
+    function readOne() {
+        $query = "SELECT * FROM
+            " . $this->table_name . " 
+            WHERE id=:id";
+        $result = $this->conn->prepare($query);
+
+        // bind values
+        $result->bindParam(":id", $this->id);
+
+        return $result->execute();
+    }
+
     function add() {
         $query = "INSERT INTO
         " . $this->table_name . "

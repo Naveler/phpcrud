@@ -3,7 +3,7 @@
 class Db {
 
     private $host = "localhost";
-    private $db_name = "songs";
+    private $db_name = "phpcrud";
     private $username = "root";
     private $password = "qwerty21";
 

@@ -3,9 +3,9 @@
 class Db {
 
     private $host = "localhost";
-    private $db_name = "nyoooo";
+    private $db_name = "songs";
     private $username = "root";
-    private $password = "qwerty";
+    private $password = "qwerty21";
 
     public $conn;
 

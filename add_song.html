@@ -3,8 +3,40 @@
     <p><a href="./">&#8592;Back</a></p>
     <form method="post" action="song/add.php">
         <p><input name="title" value="" type="text" placeholder="Title" autocomplete="off" required></p>
-        <p><input name="artist" value="" type="text" placeholder="Artist" autocomplete="off" required></p>
+        <p>Artist: 
+            <select name="artist">
+                <option disabled>Loading...</option>
+            </select>
+        </p>
         <p><input name="year" value="" type="number" placeholder="Year" autocomplete="off" required></p>
         <input type="submit">
     </form>
+    <script>
+        const dropdown = document.querySelector("select");
+        const dropdownParent = dropdown.parentElement;
+        var values = fetch("singer/read.php", {
+            method: 'GET'
+        }).then((response) => response.json()).then((dataJSON) => {
+            dropdown.innerHTML = "";
+            //If no artists are found
+            if(typeof dataJSON == "string") {
+                //delete the select element and create plaintext input
+                dropdownParent.innerHTML = "";
+                let fallbackElem = document.createElement("input");
+                fallbackElem.name = "artist";
+                fallbackElem.type = "text";
+                fallbackElem.placeholder = "Artist";
+                fallbackElem.required = true;
+                dropdownParent.appendChild(fallbackElem);
+            } else {
+                //create selections for each artist
+                dataJSON.forEach(function(e) {
+                    let elem = document.createElement("option");
+                    elem.value = e.name;
+                    elem.innerHTML = e.name;
+                    dropdown.appendChild(elem);
+                })
+            }
+        });
+    </script>
 </html>

@@ -25,5 +25,5 @@ if ($singers_count > 0) {
     }
     echo json_encode($singers_list);
 } else {
-    echo "No singers found.";
+    echo json_encode("No singers found.");
 }

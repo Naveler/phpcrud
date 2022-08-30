@@ -20,13 +20,15 @@
     <script>
     let id = window.location.hash.slice(1);
     document.querySelector("#updateId").value = id;
+    //create a post request to readOne using the id in the url
     var values = fetch("song/readOne.php", {
     method: 'POST',
     body: JSON.stringify({id: id})
     })
     .then((response) => response.json()).then((responseJSON) => {
-       console.log(responseJSON);
+       //fill each row with the values received
        document.querySelectorAll("form p input").forEach(function(e) {e.value = responseJSON[e.name]});
+       //show table and hide loading text
        document.querySelector("form").style.display = "inline";
        document.querySelector("#loadingText").style.display = "none";
     })

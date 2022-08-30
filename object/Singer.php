@@ -27,16 +27,17 @@ class Singer {
         return $result;
     }
 
-    function readOne() {
-        $query = "SELECT * FROM
-            " . $this->table_name . " 
-            WHERE id=:id";
+    function getSongs() {
+        // query to select all songs by singer id
+        $query = "SELECT d.id, d.title, d.artist, d.year
+            FROM songs d
+            WHERE d.artist=:singername";
         $result = $this->conn->prepare($query);
-
-        // bind values
-        $result->bindParam(":id", $this->id);
-
-        return $result->execute();
+        // bind id
+        $result->bindParam(":singername", $this->name);
+        // execute query
+        $result->execute();
+        return $result;
     }
 
     function add() {

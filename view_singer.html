@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <style>
+            #dataContainer {
+                display: none;
+            }
+            #songsContainer {
+                display: none;
+            }
+        </style>
+    </head>
+    <h2>View Singer</h2>
+    <p><a href="./">&#8592;Back</a></p>
+    <p id="loadingText">Loading...</p>
+    <div id="dataContainer">
+        <h3>Artist Info</h3>
+        <p id="name"></p>
+        <p id="lastname"></p>
+        <p id="startyear"></p>
+    </div>
+    <div id="songsContainer">
+        <h3>Songs</h3>
+    </div>
+    <script>
+    let loaded = [false, false];
+    function checkLoaded() {
+        if(loaded[0] && loaded[1]) {
+            document.querySelector("#dataContainer").style.display = "inline";
+            document.querySelector("#songsContainer").style.display = "inline";
+       document.querySelector("#loadingText").style.display = "none";
+        }
+    }
+    function generateSongs(arr) {
+        const container = document.querySelector("#songsContainer");
+        if(typeof arr == "string") {
+            let elem = document.createElement("p");
+            elem.innerHTML = arr;
+            container.appendChild(elem);
+        } else {
+            arr.forEach(function(e) {
+                let elem = document.createElement("p");
+                elem.innerHTML = e.title + " (" + e.year + ")";
+                container.appendChild(elem);
+            })
+        }
+    }
+    let id = window.location.hash.slice(1);
+
+    //create a post request to readOne using the id in the url
+    var values = fetch("singer/readOne.php", {
+    method: 'POST',
+    body: JSON.stringify({id: id})
+    })
+    .then((response) => response.json()).then((dataJSON) => {
+       //fill each row with the values received
+       document.querySelectorAll("#dataContainer p").forEach(function(e) {e.innerHTML = e.id + ": " + dataJSON[e.id]});
+       loaded[0] = true;
+       checkLoaded();
+       //create a post request to get the singer's songs
+       var songs = fetch("singer/getSongs.php", {
+            method: 'POST',
+            body: JSON.stringify({name: dataJSON.name})
+       }).then((songresponse) => songresponse.json()).then((songsJSON) => {
+        //fill each row with the values received
+        generateSongs(songsJSON);
+        loaded[1] = true;
+        checkLoaded();
+    })
+    })
+
+    
+    </script>
+</html>

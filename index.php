@@ -36,6 +36,7 @@
             echo "<tr><td>" . $row['name'] . "</td>";
             echo "<td>" . $row['lastname'] . "</td>";
             echo "<td>" . $row['startyear'] . "</td>";
+            echo "<td> <a href='view_singer.html#" . $row['id'] . "'>View</a>";
             echo "<td> <a href='update_singer.html#" . $row['id'] . "'>Edit</a>";
             echo "<td> <a href='delete_singer.html#" . $row['id'] . "'>Delete</a>";
             echo "</tr>";
